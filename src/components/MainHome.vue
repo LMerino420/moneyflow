@@ -4,7 +4,7 @@
 			<MainHeader />
 		</template>
 		<template #resume>
-			<MainResume />
+			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960" />
 		</template>
 		<template #movements>
 			<MainMovements />
@@ -20,5 +20,11 @@ import MainMovements from "./layout/MainMovements.vue";
 
 export default {
 	components: { MainLayout, MainHeader, MainResume, MainMovements },
+	data() {
+		return {
+			valAmount: null,
+			valLabel: "16-OCTUBRE-1996",
+		};
+	},
 };
 </script>
