@@ -4,7 +4,10 @@
 			<MainHeader />
 		</template>
 		<template #resume>
-			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960" />
+			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960">
+				<template #graphic> graphic</template>
+				<template #action> action </template>
+			</MainResume>
 		</template>
 		<template #movements>
 			<MainMovements />
