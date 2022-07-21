@@ -5,8 +5,10 @@
 		</template>
 		<template #resume>
 			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960">
-				<template #graphic> graphic</template>
-				<template #action> action </template>
+				<template #graphic> graphic </template>
+				<template #action>
+					<ActionForm />
+				</template>
 			</MainResume>
 		</template>
 		<template #movements>
@@ -20,9 +22,10 @@ import MainLayout from "./layout/MainLayout.vue";
 import MainHeader from "./layout/MainHeader.vue";
 import MainResume from "./layout/MainResume.vue";
 import MainMovements from "./movements/MainMovements.vue";
+import ActionForm from "./addmovement/ActionForm.vue";
 
 export default {
-	components: { MainLayout, MainHeader, MainResume, MainMovements },
+	components: { MainLayout, MainHeader, MainResume, MainMovements, ActionForm },
 	data() {
 		return {
 			valAmount: null,
