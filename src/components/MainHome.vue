@@ -6,7 +6,7 @@
 		<template #resume>
 			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="totAmount">
 				<template #graphic>
-					<MainGraphic :amounts="amnts"></MainGraphic>
+					<MainGraphic :amounts="amnts" @select="select" />
 				</template>
 				<template #action>
 					<ActionForm @create="create" />
@@ -48,7 +48,7 @@ export default {
 				.map((m) => m.amnt);
 
 			return lastDays.map((m, i) => {
-				const lastMove = lastDays.slice(0, i);
+				const lastMove = lastDays.slice(0, i + 1);
 				return lastMove.reduce((sum, mov) => {
 					return sum + mov;
 				}, 0);
@@ -80,6 +80,9 @@ export default {
 		},
 		save() {
 			localStorage.setItem("movimientos", JSON.stringify(this.arMovements));
+		},
+		select(el) {
+			this.valAmount = el;
 		},
 	},
 };
