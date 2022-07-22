@@ -5,7 +5,9 @@
 		</template>
 		<template #resume>
 			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960">
-				<template #graphic> graphic </template>
+				<template #graphic>
+					<MainGraphic :amounts="amnts"></MainGraphic>
+				</template>
 				<template #action>
 					<ActionForm />
 				</template>
@@ -23,13 +25,15 @@ import MainHeader from "./layout/MainHeader.vue";
 import MainResume from "./layout/MainResume.vue";
 import MainMovements from "./movements/MainMovements.vue";
 import ActionForm from "./addmovement/ActionForm.vue";
+import MainGraphic from "./layout/MainGraphic.vue";
 
 export default {
-	components: { MainLayout, MainHeader, MainResume, MainMovements, ActionForm },
+	components: { MainLayout, MainHeader, MainResume, MainMovements, ActionForm, MainGraphic },
 	data() {
 		return {
 			valAmount: null,
 			valLabel: null,
+			amnts: [420, 1200, 800, -450, -150, 1800],
 			arMovements: [
 				{
 					id: 0,
