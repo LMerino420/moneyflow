@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import ModalForm from "./ModalForm.vue";
 
 const showMod = ref(false);
@@ -45,8 +45,21 @@ const inpAmount = ref(0);
 const inpDescrip = ref("");
 const movType = ref("Ingreso");
 
+const emit = defineEmits(["create"]);
+
 const submit = () => {
 	showMod.value = !showMod.value;
+	emit("create", {
+		title: inpTitle.value,
+		amnt: movType.value === "Ingreso" ? inpAmount.value : -inpAmount.value,
+		description: inpDescrip.value,
+		time: new Date(),
+		id: new Date().getTime(),
+	});
+	inpTitle.value = "";
+	inpAmount.value = 0;
+	inpDescrip.value = "";
+	movType.value = "Ingreso";
 };
 </script>
 

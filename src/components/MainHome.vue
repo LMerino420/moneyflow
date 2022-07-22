@@ -4,17 +4,17 @@
 			<MainHeader />
 		</template>
 		<template #resume>
-			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="1610960">
+			<MainResume :label="'Ahorro total'" :valLabel="valLabel" :amount="valAmount" :totalAmount="totAmount">
 				<template #graphic>
 					<MainGraphic :amounts="amnts"></MainGraphic>
 				</template>
 				<template #action>
-					<ActionForm />
+					<ActionForm @create="create" />
 				</template>
 			</MainResume>
 		</template>
 		<template #movements>
-			<MainMovements :movements="arMovements" />
+			<MainMovements :movements="arMovements" @remove="remove" />
 		</template>
 	</MainLayout>
 </template>
@@ -33,34 +33,54 @@ export default {
 		return {
 			valAmount: null,
 			valLabel: null,
-			amnts: [420, 1200, 800, -450, -150, 1800],
-			arMovements: [
-				{
-					id: 0,
-					title: "Prueba 0",
-					description: "lorem ipsum dolor sit amet",
-					amnt: 1000,
-				},
-				{
-					id: 1,
-					title: "Prueba 1",
-					description: "lorem ipsum dolor sit amet",
-					amnt: 1000,
-				},
-				{
-					id: 2,
-					title: "Prueba 2",
-					description: "lorem ipsum dolor sit amet",
-					amnt: 1000,
-				},
-				{
-					id: 3,
-					title: "Prueba 3",
-					description: "lorem ipsum dolor sit amet",
-					amnt: -1000,
-				},
-			],
+			arMovements: [],
 		};
+	},
+	computed: {
+		amnts() {
+			const lastDays = this.arMovements
+				.filter((m) => {
+					const today = new Date();
+					const oldDate = today.setDate(today.getDate() - 30);
+
+					return m.time > oldDate;
+				})
+				.map((m) => m.amnt);
+
+			return lastDays.map((m, i) => {
+				const lastMove = lastDays.slice(0, i);
+				return lastMove.reduce((sum, mov) => {
+					return sum + mov;
+				}, 0);
+			});
+		},
+		totAmount() {
+			return this.arMovements.reduce((sum, m) => {
+				return sum + m.amnt;
+			}, 0);
+		},
+	},
+	mounted() {
+		const mov = JSON.parse(localStorage.getItem("movimientos"));
+		if (Array.isArray(mov)) {
+			this.arMovements = mov.map((m) => {
+				return { ...m, time: new Date(m.time) };
+			});
+		}
+	},
+	methods: {
+		create(movement) {
+			this.arMovements.push(movement);
+			this.save();
+		},
+		remove(id) {
+			const index = this.arMovements.findIndex((m) => m.id === id);
+			this.arMovements.splice(index, 1);
+			this.save();
+		},
+		save() {
+			localStorage.setItem("movimientos", JSON.stringify(this.arMovements));
+		},
 	},
 };
 </script>
